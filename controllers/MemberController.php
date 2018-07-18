@@ -2,21 +2,25 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Member;
 use app\models\MemberSearch;
+use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class MemberController extends Controller {
 
     public function behaviors() {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['list', 'edit', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
